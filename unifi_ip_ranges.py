@@ -1,9 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-# Author: Junior Polegato
-# Date: 10 Jun 2013
-# Version: 0.1
+# Author.....: Junior Polegato
+# Date.......: 11 Jun 2013
+# Version....: 0.1.1
+# Description: Operations with IP/mask octets and ranges
+#              and unify sequential ip ranges
 
 def validate_ip(ip):
     if ip.count('.') != 3:
@@ -39,7 +41,8 @@ def bits_mask_to_int(bits):
     if isinstance(bits, (str, unicode)):
         bits = int(bits)
     if bits < 0 or bits > 32:
-        raise ValueError('Btis mask need to be between 0 and 32.')
+        raise ValueError('Bits mask need to be '
+                                          'between 0 and 32 inclusive.')
     return (0xFFFFFFFF << (32 - bits)) & 0xFFFFFFFF
 
 def int_to_bits_mask(i):
@@ -84,7 +87,8 @@ def unify_ranges_pass(list_of_ips_mask, debug = False):
             if debug:
                 print 'new_mask:', new_mask
                 print 'new_range:', new_range
-            if before[2][1] == new_range[2][1] and now[3][1] == new_range[3][1]:
+            if (before[2][1] == new_range[2][1] and
+                                          now[3][1] == new_range[3][1]):
                 before = new_range
                 continue
         if before[2][1] >= now[2][1] and before[3][1] <= now[3][1]:
@@ -92,8 +96,8 @@ def unify_ranges_pass(list_of_ips_mask, debug = False):
             before = now
             continue # before contains now
         if before[2][1] <= now[2][1] and before[3][1] >= now[3][1]:
-            if debug: print 'before ontains now'
-            continue # before contains now
+            if debug: print 'before contains now'
+            continue
         final.append(before)
         before = now
     final.append(before)
