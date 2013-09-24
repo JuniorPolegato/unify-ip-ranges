@@ -83,7 +83,7 @@ def unify_ranges_pass(list_of_ips_mask, debug = False):
             print 'now...:', now
         if now[1][2] == before[1][2] and now[2][1] == before[3][1] + 1:
             new_mask = now[1][2] - 1
-            new_range = ip_range("%s/%i" % (now[0][0], new_mask))
+            new_range = ip_range("%s/%i" % (before[0][0], new_mask))
             if debug:
                 print 'new_mask:', new_mask
                 print 'new_range:', new_range
